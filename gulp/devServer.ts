@@ -6,7 +6,10 @@ const devServer: TaskFactory = (gulp, {registerChildProcess}) => () => {
   const child: ChildProcess = spawn(
     `nodemon`,
     [`-w`, `./dist/server`, `./dist/server`],
-    {cwd: appRoot}
+    {
+      cwd: appRoot,
+      env: {...process.env, NODE_ENV: 'development'}
+    }
   );
   process.stdin.pipe(child.stdin);
   registerChildProcess(child);

@@ -1,6 +1,7 @@
 const appRoot = require('app-root-path').toString();
 import {spawn, ChildProcess} from 'child_process';
 import {existsSync} from 'fs';
+import {join} from 'path';
 import {TaskFactory} from './taskFactory';
 
 const awaitServer = () => new Promise((resolve, reject) => {
@@ -16,7 +17,10 @@ const awaitServer = () => new Promise((resolve, reject) => {
 
 const transpileServer: TaskFactory = (gulp, {registerChildProcess}) => (next) => {
   awaitServer().then(next);
-  const child: ChildProcess = spawn(`tsc`, [`-w`, `-p`, `./src/server`], {cwd: appRoot});
+  const child: ChildProcess = spawn(
+    `tsc`,
+    [`-w`, `-p`, `${appRoot}/src/server`]
+  );
   registerChildProcess(child);
 }
 export default transpileServer;

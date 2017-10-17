@@ -21,4 +21,7 @@ task('devServer', ['transpileServer']);
 
 gulp.task('default', ['clean', 'copyStatics', 'devServer']);
 
-process.on('exit', () => context.childProcesses.forEach(p => p.child.kill()));
+process.on('exit', () => {
+  console.log('exiting');
+  childProcesses.forEach(p => p.child.kill());
+});

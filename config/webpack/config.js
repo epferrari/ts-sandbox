@@ -6,7 +6,7 @@ module.exports = function webpackConfig(env) {
     entry: join(appRoot, "src/client/index.tsx"),
     output: {
       filename: "bundle.js",
-      path: join(appRoot, "dist", "public")
+      path: env === 'development' ? '/' : join(appRoot, "dist", "public")
     },
     devtool: "source-map",
     resolve: {
@@ -15,8 +15,16 @@ module.exports = function webpackConfig(env) {
 
     module: {
       rules: [
-        {test: /\.tsx?$/, loader: "awesome-typescript-loader"},
-        {test: /\.js$/, enforce: "pre", loader: "source-map-loader"}
+        {
+          test: /\.tsx?$/,
+          loader: "awesome-typescript-loader",
+          options: {configFileName: join(appRoot, './src/client/tsconfig.json')}
+        },
+        {
+          test: /\.js$/,
+          enforce: "pre",
+          loader: "source-map-loader"
+        }
       ]
     },
 
