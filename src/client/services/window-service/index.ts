@@ -1,0 +1,1 @@
+export {WindowService as default} from './window-service';

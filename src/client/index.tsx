@@ -1,10 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-class App extends React.Component<{}, {}> {
-  public render() {
-    return (<h1>Hello World</h1>);
-  }
-}
+import {Registry} from './core';
+import WindowService from './services/window-service';
+import {App} from './app';
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+const registry = new Registry();
+registry.service('WindowService', WindowService);
+
+ReactDOM.render(
+  <App registry={registry}/>,
+  document.getElementById('app')
+);
