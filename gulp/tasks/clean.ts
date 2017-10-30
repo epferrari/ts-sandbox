@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path').toString();
 import {exec} from 'shelljs';
-import {TaskFactory} from './taskFactory';
+import {TaskFactory} from '../taskFactory';
 
 
 const clean: TaskFactory = () => () => {

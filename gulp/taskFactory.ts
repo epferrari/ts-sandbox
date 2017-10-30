@@ -1,4 +1,4 @@
-import * as gulp from 'gulp';
+import * as gulp from 'gulp'
 import {ChildProcess} from 'child_process';
 
 export type TaskContext = {

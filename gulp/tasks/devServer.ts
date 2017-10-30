@@ -1,5 +1,5 @@
 import {spawn, ChildProcess} from 'child_process';
-import {TaskFactory} from './taskFactory';
+import {TaskFactory} from '../taskFactory';
 const appRoot = require('app-root-path').toString();
 
 const devServer: TaskFactory = (gulp, {registerChildProcess}) => () => {
