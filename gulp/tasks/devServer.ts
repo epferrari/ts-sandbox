@@ -1,13 +1,12 @@
 import {spawn, ChildProcess} from 'child_process';
 import {TaskFactory} from '../taskFactory';
-const appRoot = require('app-root-path').toString();
 
-const devServer: TaskFactory = (gulp, {registerChildProcess}) => () => {
+const devServer: TaskFactory = (gulp, {registerChildProcess, rootPath, buildDir}) => () => {
   const child: ChildProcess = spawn(
     `nodemon`,
-    [`-w`, `./dist/server`, `./dist/server`],
+    [`-w`, `./${buildDir}/server`, `./${buildDir}/server`],
     {
-      cwd: appRoot,
+      cwd: rootPath,
       env: {...process.env, NODE_ENV: 'development'}
     }
   );

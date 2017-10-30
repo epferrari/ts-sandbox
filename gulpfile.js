@@ -4,5 +4,6 @@ const {task, defaultTask} = require('./gulp');
 task('clean');
 task('transpileServer');
 task('copyStatics');
-task('devServer', ['transpileServer']);
+task('awaitServer');
+task('devServer', ['transpileServer', 'awaitServer']);
 defaultTask(['clean', 'copyStatics', 'devServer']);

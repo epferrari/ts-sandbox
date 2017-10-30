@@ -1,8 +1,8 @@
-import * as gulp from 'gulp'
 import {ChildProcess} from 'child_process';
 
 export type TaskContext = {
   registerChildProcess: (child: ChildProcess, options?: {silent?: boolean}) => void;
-  [property: string]: any;
+  rootPath: string;
+  buildDir: 'build'|'dist';
 };
-export type TaskFactory = (instance: gulp, context: TaskContext) => (cb?: () => void) => void;
+export type TaskFactory = (gulp: any, context: TaskContext) => (cb?: () => void) => void;
