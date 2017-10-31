@@ -1,7 +1,7 @@
 import {spawn, ChildProcess} from 'child_process';
 import {TaskFactory} from '../taskFactory';
 
-const transpileServer: TaskFactory = (gulp, {registerChildProcess, rootPath, buildDir}) => () => { 
+const transpileServer: TaskFactory = (gulp, {registerChildProcess, rootPath, buildDir}) => () => {
   const child: ChildProcess = spawn(
     `tsc`,
     [
@@ -11,5 +11,6 @@ const transpileServer: TaskFactory = (gulp, {registerChildProcess, rootPath, bui
     ]
   );
   registerChildProcess(child);
-}
+};
+
 export default transpileServer;

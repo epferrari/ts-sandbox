@@ -3,8 +3,8 @@ import {Request, Response} from 'express';
 import {join} from 'path';
 const app = express();
 
-if(process.env.NODE_ENV === 'development') {
-  console.log('using webpack dev middlware');
+if (process.env.NODE_ENV === 'development') {
+  process.stdout.write('using webpack dev middlware');
   app.use(require('./middleware/webpack').default);
 }
 

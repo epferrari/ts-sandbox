@@ -1,10 +1,11 @@
 import * as gulp from 'gulp';
 import {ChildProcess} from 'child_process';
-import {TaskContext, TaskFactory} from './taskFactory';
-const appRoot = require('app-root-path').toString();
+import {TaskContext} from './taskFactory';
+import * as appRoot from 'app-root-path';
 
 const processes: {child: ChildProcess, options: {}}[] = [];
 const context: TaskContext = {
+  buildDir: (process.env.NODE_ENV === 'production' ? 'dist' : 'build'),
   registerChildProcess: (child, options = {}) => {
     if (!options.silent) {
       child.stdout.pipe(process.stdout);
@@ -12,8 +13,7 @@ const context: TaskContext = {
     }
     processes.push({child, options});
   },
-  rootPath: appRoot,
-  buildDir: process.env.NODE_ENV === 'production' ? 'dist' : 'build'
+  rootPath: appRoot.toString()
 };
 
 process.on('exit', () => {

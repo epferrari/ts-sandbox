@@ -1,0 +1,43 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "eofline": false,
+    "ordered-imports": false,
+    "no-consecutive-blank-lines": false,
+    "interface-over-type-literal": false,
+    "arrow-parens": false,
+    "quotemark": [true, "single", "jsx-single", "ignore-escape"],
+    "no-var-requires": false,
+    "curly": true,
+    "no-debugger": true,
+    "no-console": true,
+    "no-duplicate-super": true,
+    "no-eval": true,
+    "no-shadowed-variable": true,
+    "no-string-throw": true,
+    "no-switch-case-fall-through": true,
+    "no-this-assignment": true,
+    "no-unused-variable": true,
+    "prefer-object-spread": true,
+    "use-isnan": true,
+    "max-file-line-count": 200,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
+    "array-type": [true, "array"],
+    "arrow-return-shorthand": [true, "multiline"],
+    "class-name": true,
+    "comment-format": [true, "check-space", "check-lowercase"],
+    "jsdoc-format": true,
+    "match-default-export-name": true,
+    "no-trailing-whitespace": true,
+    "one-line": true,
+    "prefer-switch": true,
+    "prefer-template": true,
+    "semicolon": true
+  }
+}
