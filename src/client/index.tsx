@@ -2,11 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import {Registry} from './core';
-import WindowService from './services/window-service';
 import {App} from './app';
 
 const registry = new Registry();
-registry.service('WindowService', WindowService);
 
 ReactDOM.render(
   <App registry={registry}/>,
