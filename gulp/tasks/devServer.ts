@@ -3,7 +3,7 @@ import {TaskFactory} from '../taskFactory';
 
 const devServer: TaskFactory = (gulp, {registerChildProcess, rootPath, buildDir}) => () => {
   const child: ChildProcess = spawn(
-    `nodemon`,
+    `${rootPath}/node_modules/.bin/nodemon`,
     [`-w`, `./${buildDir}/server`, `./${buildDir}/server`],
     {
       cwd: rootPath,
