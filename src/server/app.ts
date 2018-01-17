@@ -8,6 +8,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(require('./middleware/webpack').default);
 }
 
-app.get('/', (req: Request, res: Response) => res.sendFile(join(__dirname, '../public/index.html')));
+app.get('*', (req: Request, res: Response) => res.sendFile(join(__dirname, '../public/index.html')));
 
 export default app;

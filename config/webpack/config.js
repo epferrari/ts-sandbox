@@ -24,6 +24,17 @@ module.exports = function webpackConfig(env) {
           test: /\.js$/,
           enforce: "pre",
           loader: "source-map-loader"
+        },
+        {
+          test: /\.css$/,
+          use: ["style-loader", "css-loader"]
+        },
+        {
+          test: /\.(svg|ttf|eot|woff|woff2)$/,
+          loader: "file-loader",
+          options: {
+            name: "fonts/[name].[ext]",
+          },
         }
       ]
     },
