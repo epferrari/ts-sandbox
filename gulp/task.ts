@@ -18,7 +18,7 @@ const context: TaskContext = {
 };
 
 process.on('exit', () => {
-  process.stdout.write('exiting');
+  process.stdout.write('exiting\n');
   processes.forEach(p => p.child.kill());
 });
 
@@ -32,6 +32,9 @@ process.stdin.on('data', d => {
     process.stdout.write(e);
   }
 });
+
+// hack to combat some nonsense with the process not exiting when the tasks are done
+gulp.on('stop', () => process.exit(0));
 
 type TaskOptions = {
   path?: string;
