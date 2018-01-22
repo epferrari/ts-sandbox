@@ -1,5 +1,5 @@
 
-import {task, group, main, sequence} from './task';
+import {task, group, main} from './task';
 
 task('clean', []);
 task('copyStatics', []);
