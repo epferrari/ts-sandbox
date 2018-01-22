@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tslint": "gulp tslint"
   },
   "author": "Ethan Ferrari <ethan@ethanferrari.com>",
   "license": "ISC",
@@ -46,6 +47,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^4.0.0-alpha.1",
     "nodemon": "^1.12.1",
+    "precommit-hook": "^3.0.0",
     "run-sequence": "^2.2.1",
     "shelljs": "^0.7.8",
     "source-map-loader": "^0.2.2",
@@ -55,5 +57,6 @@
     "typescript": "^2.5.3",
     "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0"
-  }
+  },
+  "pre-commit": ["tslint"]
 }
