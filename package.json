@@ -43,6 +43,7 @@
     "file-loader": "^1.1.6",
     "gulp": "^3.9.1",
     "gulp-tslint": "^8.1.2",
+    "gulp-typescript": "^4.0.0-alpha.1",
     "nodemon": "^1.12.1",
     "shelljs": "^0.7.8",
     "source-map-loader": "^0.2.2",

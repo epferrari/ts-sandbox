@@ -40,7 +40,7 @@ type TaskOptions = {
 
 export function task(name: string, deps: string[], options?: TaskOptions) {
   const {path = name, fn = 'default'} = options || {};
-  return gulp.task(
+  gulp.task(
     name,
     deps,
     name === 'default' ? null : require(`./tasks/${path}`)[fn](gulp, context)

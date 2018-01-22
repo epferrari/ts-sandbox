@@ -4,10 +4,9 @@ import {task} from './task';
 task('clean', []);
 task('copyStatics', []);
 task('tslint', []);
-task('server:transpile', [], {path: 'transpileServer'});
-task('server:await', [], {path: 'awaitServer'});
-task('server:run', ['server:transpile', 'server:await'], {path: 'runDevServer'});
-task('default', ['clean', 'copyStatics', 'server:run']);
-
+task('server:compile', [], {path: 'compiler', fn: 'compileServer'});
+task('server:watch', [], {path: 'compiler', fn: 'watchServer'});
+task('server:run', ['server:compile'], {path: 'runDevServer'});
+task('default', ['clean', 'copyStatics', 'tslint', 'server:watch', 'server:run']);
 
 
