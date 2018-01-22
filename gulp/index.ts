@@ -1,5 +1,5 @@
 
-import {task, group} from './task';
+import {task, group, main} from './task';
 
 task('clean', []);
 task('copyStatics', []);
@@ -10,6 +10,4 @@ group('tslint', ['tslint:client', 'tslint:server']);
 task('server:compile', [], {path: 'compiler', fn: 'compileServer'});
 task('server:watch', [], {path: 'compiler', fn: 'watchServer'});
 task('server:run', ['server:compile'], {path: 'runDevServer'});
-group('default', ['clean', 'copyStatics', 'tslint', 'server:watch', 'server:run']);
-
-
+main('clean', ['copyStatics', 'tslint'], 'server:watch', 'server:run');

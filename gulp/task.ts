@@ -1,4 +1,5 @@
 import * as gulp from 'gulp';
+import {use} from 'run-sequence';
 import {ChildProcess} from 'child_process';
 import {TaskContext} from './taskFactory';
 import * as appRoot from 'app-root-path';
@@ -24,19 +25,19 @@ process.on('exit', () => {
 process.stdin.on('data', d => {
   try {
     const text: string = d.toString();
-    if(text.substring(0, 4) == 'kill') {
+    if (text.substring(0, 2) === ':q') {
       process.exit(0);
     }
-  } catch(e) {
+  } catch (e) {
     process.stdout.write(e);
   }
 });
-    
 
 type TaskOptions = {
   path?: string;
   fn?: string;
 };
+
 
 export function task(name: string, deps: string[], options?: TaskOptions): void {
   const {path = name, fn = 'default'} = options || {};
@@ -47,6 +48,18 @@ export function task(name: string, deps: string[], options?: TaskOptions): void 
   );
 }
 
+const runSequence = use(gulp);
+// identical API to run-sequence, except the first argument names the task and registers it
+export function sequence(name: string, ...tasks: (string|string[])[]): void {
+  gulp.task(name, [], done => runSequence(...tasks, done));
+}
+
+// run tasks in parallel
 export function group(name: string, tasks: string[]): void {
-  gulp.task(name, tasks);
+  gulp.task(name, [], done => runSequence(tasks, done));
+}
+
+// wrapper for default, uses run-sequence API for tasks arguments
+export function main(...tasks: (string | string[])[]): void {
+  sequence('default', ...tasks);
 }
