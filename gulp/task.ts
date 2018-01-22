@@ -38,11 +38,15 @@ type TaskOptions = {
   fn?: string;
 };
 
-export function task(name: string, deps: string[], options?: TaskOptions) {
+export function task(name: string, deps: string[], options?: TaskOptions): void {
   const {path = name, fn = 'default'} = options || {};
   gulp.task(
     name,
     deps,
-    name === 'default' ? null : require(`./tasks/${path}`)[fn](gulp, context)
+    require(`./tasks/${path}`)[fn](gulp, context)
   );
+}
+
+export function group(name: string, tasks: string[]): void {
+  gulp.task(name, tasks);
 }
