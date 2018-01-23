@@ -3,6 +3,7 @@
   "rules": {
     "eofline": false,
     "ordered-imports": false,
+    "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
     "interface-over-type-literal": false,
     "arrow-parens": false,
@@ -29,7 +30,7 @@
       }
     ],
     "array-type": [true, "array"],
-    "arrow-return-shorthand": [true, "multiline"],
+    "arrow-return-shorthand": [false, "multiline"],
     "class-name": true,
     "comment-format": [true, "check-space", "check-lowercase"],
     "jsdoc-format": true,

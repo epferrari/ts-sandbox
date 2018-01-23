@@ -5,7 +5,7 @@ import * as sourcemaps from 'gulp-sourcemaps';
 
 let tsProject: ts.Project;
 
-export const compileServer: TaskFactory = (gulp, {rootPath, buildDir}) => () => {
+export const compileServer: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath, buildDir}) => () => {
   const project = tsProject || (tsProject =
     ts.createProject(`${rootPath}/src/server/tsconfig.json`)
   );
@@ -19,12 +19,14 @@ export const compileServer: TaskFactory = (gulp, {rootPath, buildDir}) => () => 
     .pipe(gulp.dest(`${rootPath}/${buildDir}/server`));
 };
 
-export const watchServer: TaskFactory = (gulp, context) => () => {
-  const {rootPath} = context;
+export const watchServer: TaskFactory<NodeJS.EventEmitter> = (gulp, context) => () => {
+  const {rootPath, onExit} = context;
   const recompile = (event: WatchEvent) => {
     process.stdout.write('recompiling server...\n');
     compileServer(gulp, context)();
   };
-  return gulp.watch(`${rootPath}/src/server/*`, recompile);
+  const watcher = gulp.watch(`${rootPath}/src/server/*`, recompile);
+  onExit(() => (watcher as any).end());
+  return watcher;
 };
 

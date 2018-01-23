@@ -1,7 +1,7 @@
 import {TaskFactory} from '../taskFactory';
 
-const copyStatics: TaskFactory = (gulp, {rootPath, buildDir}) => () => {
-  gulp
+const copyStatics: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath, buildDir}) => () => {
+  return gulp
     .src(`${rootPath}/src/public/*`)
     .pipe(gulp.dest(`${rootPath}/${buildDir}/public`));
 };
