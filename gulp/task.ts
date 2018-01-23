@@ -86,8 +86,7 @@ export function sequence(name: string, ...tasks: (string|string[])[]): void {
   gulp.task(name, [], done => runSequence(...tasks, done));
 }
 
-// run tasks in parallel
-export function group(name: string, tasks: string[]): void {
+export function parallel(name: string, tasks: string[]): void {
   gulp.task(name, [], done => runSequence(tasks, done));
 }
 
