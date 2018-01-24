@@ -8,16 +8,16 @@
     "tslint": "gulp tslint && gulp tslint:tasks",
     "precommit": "lint-staged"
   },
-  "pre-commit": [
-    "precommit"
-  ],
   "lint-staged": {
     "gulp/**/*.ts": "node_modules/.bin/tslint --project gulp/tsconfig.json",
     "src/client/**/*.tsx?": "node_modules/.bin/tslint --project src/client/tsconfig.json",
     "src/server/**/*.ts": "node_modules/.bin/tslint --project src/server/tsconfig.json",
     "*.json": "node_modules/.bin/jsonlint"
   },
-  "author": "Ethan Ferrari <ethan@ethanferrari.com>",
+  "authors": [
+    "Ethan Ferrari <ethan@ethanferrari.com>",
+    "Kurt Preston <kurt@kurtpreston.com>"
+  ],
   "license": "ISC",
   "dependencies": {
     "@types/orchestrator": "^0.3.2",
@@ -68,17 +68,17 @@
     "gulp-sourcemaps": "^1.12.1",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^4.0.0-alpha.1",
+    "husky": "^0.14.3",
     "jsonlint": "^1.6.2",
     "lint-staged": "^6.0.1",
     "nodemon": "^1.12.1",
-    "precommit-hook": "^3.0.0",
     "run-sequence": "^2.2.1",
     "shelljs": "^0.7.8",
     "source-map-loader": "^0.2.2",
     "style-loader": "^0.19.1",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
-    "typescript": "^2.5.3",
+    "typescript": "^2.6.2",
     "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0"
   }
