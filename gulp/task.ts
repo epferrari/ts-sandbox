@@ -7,8 +7,9 @@ import * as appRoot from 'app-root-path';
 const processes: {child: ChildProcess, options: {}}[] = [];
 const doneCallbacks: (() => void)[] = [];
 const commands: {[command: string]: {
-  handler: () => void;
-  description?: string;
+  handler: (args?: {[arg: string]: string|boolean}) => void;
+  description: string;
+  options?: string[];
  }} = {};
 
 const context: TaskContext = {
@@ -21,11 +22,17 @@ const context: TaskContext = {
     }
     processes.push({child, options});
   },
-  registerCommand: (command, handler, description) => {
+  registerCommand: (command, handler, description, options) => {
     if (commands[command]) {
       throw new Error(`Command ${command} already registered. Pick a unique command name`);
     }
-    commands[command] = {handler, description};
+    if(!/^\:/.test(command)) {
+      throw new Error(`Command ${command} should start with a ":"`);
+    }
+    if((/\s/).test(command)) {
+      throw new Error(`Commands should not have spaces, check ${command}`);
+    }
+    commands[command] = {handler, description, options};
   },
   onExit: (cb) => {
     doneCallbacks.push(cb);
@@ -34,17 +41,18 @@ const context: TaskContext = {
 
 context.registerCommand(':q', () => {
   process.exit(0);
-});
+}, 'Quit all tasks');
 
-context.registerCommand(':commands', () => {
-  process.stdout.write('\nAvailable Commands\n');
-  Object.keys(commands).forEach(command => {
-    process.stdout.write(`${command}\n`);
-    if (commands[command].description) {
-      process.stdout.write(`   ${commands[command].description}\n`);
+context.registerCommand(':c', () => {
+  process.stdout.write('\nAvailable Commands\n\n');
+  Object.keys(commands).forEach(name => {
+    const command = commands[name];
+    process.stdout.write(`${name} -- ${command.description}\n`);
+    if (command.options) {
+      process.stdout.write(`   Options: ${command.options.join(' ')}\n`);
     }
   });
-});
+}, 'List available commands');
 
 process.on('exit', () => {
   process.stdout.write('exiting\n');
@@ -54,9 +62,24 @@ process.on('exit', () => {
 
 process.stdin.on('data', d => {
   try {
-    const text: string = d.toString().trim();
-    if (commands[text]) {
-      commands[text].handler();
+    const input: string = d.toString().trim();
+    if (/^\:/.test(input)) {
+      const sArgs = input.split(/\s+/);
+      const command = sArgs.shift();
+      if (commands[command]) {
+        const args = sArgs.reduce((acc, arg) => {
+          arg = arg.replace(/^\-+/, '');
+          if (/\=/.test(arg)) {
+            const kv = arg.split('=');
+            acc[kv[0]] = kv[1];
+          } else {
+            acc[arg] = true;
+          }
+          return acc;
+        }, {});
+
+        commands[command].handler(args);
+      }
     }
   } catch (e) {
     process.stdout.write(e);
