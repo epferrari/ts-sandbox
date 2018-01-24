@@ -1,17 +1,30 @@
 
 import {task, parallel, main, sequence} from './task';
 
-task('clean', []);
-task('copyStatics', []);
-task('tslint:tasks', [], {path: 'tslint', fn: 'lintTasks'});
-task('tslint:server', [], {path: 'tslint', fn: 'lintServer'});
-task('tslint:client', [], {path: 'tslint', fn: 'lintClient'});
+import clean from './tasks/clean';
+import buildStatics from './tasks/buildStatics';
+import * as tslint from './tasks/tsLint';
+import * as compiler from './tasks/compiler';
+import * as serverTest from './tasks/serverTest';
+import * as devServer from './tasks/devServer';
+
+task('clean', clean);
+task('build:statics', buildStatics);
+task('tslint:tasks', tslint.lintTasks);
+task('tslint:server', tslint.lintServer);
+task('tslint:client', tslint.lintClient);
 parallel('tslint', ['tslint:client', 'tslint:server']);
-task('server:compile', [], {path: 'compiler', fn: 'compileServer'});
-task('server:watch', [], {path: 'compiler', fn: 'watchServer'});
-task('server:run', ['server:compile'], {path: 'devServer', fn: 'run'});
-task('server:test:single', ['server:compile'], {path: 'serverTest', fn: 'singleRun'});
-task('server:test:hooks', [], {path: 'serverTest', fn: 'applyHooks'});
-task('server:test', ['server:test:single', 'server:watch'], {path: 'serverTest', fn: 'continuous'});
-sequence('serve', 'clean', ['copyStatics', 'tslint'], ['server:watch', 'server:test:hooks'], 'server:run');
+task('server:compile', compiler.compileServer);
+task('server:watch', compiler.watchServer);
+task('server:run', ['server:compile'], devServer.run);
+task('server:test:single', ['server:compile'], serverTest.singleRun);
+task('server:test:hooks', serverTest.applyHooks);
+task('server:test', ['server:test:single', 'server:watch'], serverTest.continuous);
+sequence('serve',
+  'clean',
+  ['build:statics', 'tslint'],
+  ['server:watch', 'server:test:hooks'],
+  'server:run'
+);
+
 main('serve');

@@ -1,7 +1,7 @@
 import * as gulp from 'gulp';
 import {use} from 'run-sequence';
 import {ChildProcess} from 'child_process';
-import {TaskContext} from './taskFactory';
+import {TaskContext, TaskFactory} from './taskFactory';
 import * as appRoot from 'app-root-path';
 
 const processes: {child: ChildProcess, options: {}}[] = [];
@@ -66,18 +66,17 @@ process.stdin.on('data', d => {
 // hack to combat some nonsense with the process not exiting when the tasks are done
 gulp.on('stop', () => process.exit(0));
 
-type TaskOptions = {
-  path?: string;
-  fn?: string;
-};
-
-export function task(name: string, deps: string[], options?: TaskOptions): void {
-  const {path = name, fn = 'default'} = options || {};
-  gulp.task(
-    name,
-    deps,
-    require(`./tasks/${path}`)[fn](gulp, context)
-  );
+export function task<T>(name: string, depsOrFactory: (string[])|TaskFactory<T>, factory?: TaskFactory<T>): void {
+  let deps: string[];
+  let taskFactory: TaskFactory<T>;
+  if (Array.isArray(depsOrFactory)) {
+    deps = depsOrFactory;
+    taskFactory = factory;
+  } else {
+    deps = [],
+    taskFactory = depsOrFactory;
+  }
+  gulp.task(name, deps, taskFactory(gulp, context));
 }
 
 const runSequence = use(gulp);

@@ -8,4 +8,4 @@ export type TaskContext = {
   onExit: (cb: () => void) => void;
   rootPath: string;
 };
-export type TaskFactory<T> = (gulp: Gulp, context: TaskContext) => (cb?: (...args: any[]) => void) => T;
+export type TaskFactory<T> = (gulp: Gulp, context: TaskContext) => (cb?: (err?: any) => void) => T;
