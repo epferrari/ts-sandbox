@@ -4,8 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tslint": "gulp tslint && gulp tslint:tasks"
+    "test": "gulp server:test:single",
+    "tslint": "gulp tslint && gulp tslint:tasks",
+    "precommit": "lint-staged"
+  },
+  "pre-commit": [
+    "precommit"
+  ],
+  "lint-staged": {
+    "gulp/**/*.ts": "node_modules/.bin/tslint --project gulp/tsconfig.json",
+    "src/client/**/*.tsx?": "node_modules/.bin/tslint --project src/client/tsconfig.json",
+    "src/server/**/*.ts": "node_modules/.bin/tslint --project src/server/tsconfig.json",
+    "*.json": "node_modules/.bin/jsonlint"
   },
   "author": "Ethan Ferrari <ethan@ethanferrari.com>",
   "license": "ISC",
@@ -15,6 +25,7 @@
     "bootstrap": "^3.3.7",
     "chance": "^1.0.12",
     "core-decorators": "^0.20.0",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "json-schema": "^0.2.3",
     "prop-types": "^15.6.0",
@@ -57,6 +68,8 @@
     "gulp-sourcemaps": "^1.12.1",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^4.0.0-alpha.1",
+    "jsonlint": "^1.6.2",
+    "lint-staged": "^6.0.1",
     "nodemon": "^1.12.1",
     "precommit-hook": "^3.0.0",
     "run-sequence": "^2.2.1",
@@ -68,8 +81,5 @@
     "typescript": "^2.5.3",
     "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0"
-  },
-  "pre-commit": [
-    "tslint"
-  ]
+  }
 }
