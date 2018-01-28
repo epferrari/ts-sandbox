@@ -2,7 +2,7 @@ import * as mocha from 'gulp-mocha';
 import * as debug from 'gulp-debug';
 import {TaskContext} from '../taskContext';
 import {TaskFactory} from '../taskFactory';
-import {running as serverRunning} from './devServer';
+import {running as serverRunning} from './server';
 
 const specFiles = ({rootPath, buildDir}: TaskContext) => `${rootPath}/${buildDir}/**/*.spec.js`;
 let specWatcher: NodeJS.EventEmitter;

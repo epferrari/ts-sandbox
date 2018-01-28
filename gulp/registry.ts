@@ -8,7 +8,7 @@ import buildStatics from './tasks/buildStatics';
 import * as tslint from './tasks/tsLint';
 import * as compiler from './tasks/compiler';
 import * as serverTest from './tasks/serverTest';
-import * as devServer from './tasks/devServer';
+import * as server from './tasks/server';
 
 export function registry (gulp: Gulp) {
   const ctx = new TaskContext();
@@ -25,7 +25,7 @@ export function registry (gulp: Gulp) {
   task('server:watch', provide(compiler.watchServer));
   task('server:run', series(
     'server:compile',
-    provide(devServer.run)
+    provide(server.serve)
   ));
   task('server:test:single', series(
     'server:compile',
