@@ -23,7 +23,8 @@ export const run: TaskFactory<void> = (gulp, {registerChildProcess, rootPath, bu
       env: {...process.env, NODE_ENV: 'development'}
     }
   );
-  child.on('start', () => serving = true)
+  child
+    .on('start', () => serving = true)
     .on('exit', () => serving = false)
     .on('crash', () => serving = false);
 

@@ -1,6 +1,7 @@
 import {Gulp} from 'gulp';
 import {autobind} from 'core-decorators';
 import {ChildProcess} from 'child_process';
+import * as killTree from 'tree-kill';
 import * as appRoot from 'app-root-path';
 
 type ContextCommand = {
@@ -15,11 +16,13 @@ export class TaskContext {
   private teardowns: (() => void)[] = [];
   private commands: {[command: string]: ContextCommand} = {};
 
+  // TODO: pass these into the registry factory and then into this ctor
   public readonly rootPath: string = appRoot.toString();
   public readonly buildDir: 'build' | 'dist' = (process.env.NODE_ENV === 'production' ? 'dist' : 'build');
 
-  constructor(gulp: Gulp) {
+  constructor() {
     this.registerCommand(':q', () => {
+      process.stdout.write('exiting\n');
       this.exitGracefully();
       process.exit(0);
     }, 'Quit all tasks');
@@ -68,9 +71,11 @@ export class TaskContext {
   }
 
   private exitGracefully() {
-    process.stdout.write('exiting\n');
+    this.childProcesses.forEach(p => {
+      killTree(p.child.pid);
+      p.child.kill();
+    });
     this.teardowns.forEach(cb => cb && cb());
-    this.childProcesses.forEach(p => p.child.kill());
   }
 
   public onExit(cb: () => void): void {
