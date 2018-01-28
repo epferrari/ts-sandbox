@@ -10,6 +10,11 @@ type ContextCommand = {
   options?: string[];
 };
 
+export type ContextOptions= {
+  rootPath: string;
+  buildDir?: string;
+}
+
 @autobind
 export class TaskContext {
   private childProcesses: {child: ChildProcess, options: {}}[] = [];
@@ -17,10 +22,13 @@ export class TaskContext {
   private commands: {[command: string]: ContextCommand} = {};
 
   // TODO: pass these into the registry factory and then into this ctor
-  public readonly rootPath: string = appRoot.toString();
-  public readonly buildDir: 'build' | 'dist' = (process.env.NODE_ENV === 'production' ? 'dist' : 'build');
+  public readonly rootPath: string;
+  public readonly buildDir: string;
 
-  constructor() {
+  constructor(options: ContextOptions) {
+
+    this.rootPath = options.rootPath;
+    this.buildDir = options.buildDir || (process.env.NODE_ENV === 'production' ? 'dist' : 'build');
     this.registerCommand(':q', () => {
       process.stdout.write('exiting\n');
       this.exitGracefully();

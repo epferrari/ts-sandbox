@@ -1,5 +1,6 @@
 require('ts-node').register({ project: './gulp' });
 const gulp = require('gulp');
-const {registry} = require('./gulp/registry');
-
-gulp.registry(registry(gulp));
+const rootPath = require('app-root-path').toString();
+const {Registry} = require('./gulp/registry');
+const registry = new Registry({rootPath});
+gulp.registry(registry);
