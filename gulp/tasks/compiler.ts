@@ -1,7 +1,7 @@
-import {WatchEvent} from 'gulp';
+import {FSWatcher} from 'fs';
 import * as ts from 'gulp-typescript';
-import {TaskFactory} from '../taskFactory';
 import * as sourcemaps from 'gulp-sourcemaps';
+import {TaskFactory} from '../taskFactory';
 
 let tsProject: ts.Project;
 
@@ -19,14 +19,15 @@ export const compileServer: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPa
     .pipe(gulp.dest(`${rootPath}/${buildDir}/server`));
 };
 
-export const watchServer: TaskFactory<NodeJS.EventEmitter> = (gulp, context) => () => {
+export const watchServer: TaskFactory<NodeJS.EventEmitter> = (gulp, context) => (done) => {
   const {rootPath, onExit} = context;
-  const recompile = (event: WatchEvent) => {
+  const recompile = () => {
     process.stdout.write('recompiling server...\n');
     compileServer(gulp, context)();
   };
-  const watcher = gulp.watch(`${rootPath}/src/server/*`, recompile);
-  onExit(() => (watcher as any).end());
+  const watcher: FSWatcher = gulp.watch(`${rootPath}/src/server/*`, recompile);
+  onExit(watcher.close.bind(watcher));
+  done();
   return watcher;
 };
 

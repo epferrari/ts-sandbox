@@ -1,6 +1,7 @@
 import * as mocha from 'gulp-mocha';
 import * as debug from 'gulp-debug';
-import {TaskFactory, TaskContext} from '../taskFactory';
+import {TaskContext} from '../taskContext';
+import {TaskFactory} from '../taskFactory';
 import {running as serverRunning} from './devServer';
 
 const specFiles = ({rootPath, buildDir}: TaskContext) => `${rootPath}/${buildDir}/**/*.spec.js`;
@@ -17,6 +18,7 @@ export const continuous: TaskFactory<NodeJS.EventEmitter> = (gulp, context) => (
   const {onExit} = context;
   const retest = () => singleRun(gulp, context)();
   onExit(done);
+  done();
   return (specWatcher = gulp.watch(specFiles(context), retest));
 };
 
