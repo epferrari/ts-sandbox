@@ -10,13 +10,14 @@ type ContextCommand = {
   options?: string[];
 };
 
-export type ContextOptions= {
+export interface ContextOptions {
   rootPath: string;
   buildDir?: string;
+  webpackConfigPath?: string;
 }
 
 @autobind
-export class TaskContext {
+export class TaskContext implements ContextOptions {
   private childProcesses: {child: ChildProcess, options: {}}[] = [];
   private teardowns: (() => void)[] = [];
   private commands: {[command: string]: ContextCommand} = {};
@@ -24,11 +25,14 @@ export class TaskContext {
   // TODO: pass these into the registry factory and then into this ctor
   public readonly rootPath: string;
   public readonly buildDir: string;
+  public readonly webpackConfigPath: string;
 
   constructor(options: ContextOptions) {
 
     this.rootPath = options.rootPath;
     this.buildDir = options.buildDir || (process.env.NODE_ENV === 'production' ? 'dist' : 'build');
+    this.webpackConfigPath = options.webpackConfigPath;
+
     this.registerCommand(':q', () => {
       process.stdout.write('exiting\n');
       this.exitGracefully();

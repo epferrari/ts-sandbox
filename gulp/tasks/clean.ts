@@ -1,10 +1,11 @@
-import {exec} from 'shelljs';
 import {TaskFactory} from '../taskFactory';
+import * as del from 'del';
 
 
-const clean: TaskFactory<void> = (gulp, {rootPath, buildDir}) => done => {
-  exec(`rm -rf ${rootPath}/${buildDir} && mkdir -p ${rootPath}/${buildDir}/server`);
-  done();
+export const cleanServer: TaskFactory<void> = (gulp, {rootPath, buildDir}) => () => {
+  return del([`${rootPath}/${buildDir}/server`]);
 };
 
-export default clean;
+export const cleanClient: TaskFactory<void> = (gulp, {rootPath, buildDir}) => () => {
+  return del([`${rootPath}/${buildDir}/{client,public}`]);
+};
