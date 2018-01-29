@@ -6,9 +6,15 @@ module.exports = function webpackConfig(env) {
     entry: join(appRoot, "src/client/index.tsx"),
     output: {
       filename: "bundle.js",
-      path: env === 'development' ? '/' : join(appRoot, "dist", "public")
+      path: env === 'development' ? '/' : join(appRoot, "dist", "public"),
     },
     devtool: "source-map",
+    devServer: {
+      publicPath: '/public/',
+      contentBase: join(appRoot, 'build', 'public'),
+      overlay: true,
+      port: 3031
+    },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".json"]
     },
