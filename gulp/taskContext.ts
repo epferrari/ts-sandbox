@@ -1,8 +1,6 @@
-import {Gulp} from 'gulp';
 import {autobind} from 'core-decorators';
 import {ChildProcess} from 'child_process';
 import * as killTree from 'tree-kill';
-import * as appRoot from 'app-root-path';
 
 type ContextCommand = {
   handler: (args?: {[arg: string]: string | boolean}) => void;
@@ -10,24 +8,25 @@ type ContextCommand = {
   options?: string[];
 };
 
-export interface ContextOptions {
+export interface IContextOptions {
   rootPath: string;
   buildDir?: string;
   webpackConfigPath?: string;
 }
 
 @autobind
-export class TaskContext implements ContextOptions {
-  private childProcesses: {child: ChildProcess, options: {}}[] = [];
-  private teardowns: (() => void)[] = [];
-  private commands: {[command: string]: ContextCommand} = {};
+export class TaskContext implements IContextOptions {
 
   // TODO: pass these into the registry factory and then into this ctor
   public readonly rootPath: string;
   public readonly buildDir: string;
   public readonly webpackConfigPath: string;
 
-  constructor(options: ContextOptions) {
+  private childProcesses: {child: ChildProcess, options: {}}[] = [];
+  private teardowns: (() => void)[] = [];
+  private commands: {[command: string]: ContextCommand} = {};
+
+  constructor(options: IContextOptions) {
 
     this.rootPath = options.rootPath;
     this.buildDir = options.buildDir || (process.env.NODE_ENV === 'production' ? 'dist' : 'build');
@@ -82,16 +81,16 @@ export class TaskContext implements ContextOptions {
     commands[command] = {handler, description, options};
   }
 
+  public onExit(cb: () => void): void {
+    this.teardowns.push(cb);
+  }
+
   private exitGracefully() {
     this.childProcesses.forEach(p => {
       killTree(p.child.pid);
       p.child.kill();
     });
     this.teardowns.forEach(cb => cb && cb());
-  }
-
-  public onExit(cb: () => void): void {
-    this.teardowns.push(cb);
   }
 
   private listenForCommands(): void {
@@ -123,7 +122,7 @@ export class TaskContext implements ContextOptions {
       }
     });
   }
-};
+}
 
 
 

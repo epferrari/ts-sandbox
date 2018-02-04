@@ -1,4 +1,3 @@
-import {spawn, ChildProcess} from 'child_process';
 import {TaskFactory} from '../taskFactory';
 import * as nodemon from 'gulp-nodemon';
 

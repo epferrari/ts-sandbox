@@ -27,24 +27,26 @@ export const applyHooks: TaskFactory<void> = (gulp, context) => (done) => {
   const writeFailure = () => process.stdout.write('No running server, cannot hook server specs\n');
 
   registerCommand(':serverTest', (args) => {
-    if(args.start) {
+    if (args.start) {
       if (serverRunning && !specWatcher) {
         singleRun(gulp, context)();
         specWatcher = continuous(gulp, context)();
       } else if (!serverRunning) {
         writeFailure();
       }
-    } else if(args.stop) {
+    }
+    else if (args.stop) {
       if (serverRunning && specWatcher) {
         // ooooold gaze watcher in gulp 3.x.x
         process.stdout.write('stopping server tests\n');
         (specWatcher as any).end();
         specWatcher = null;
-      } else if (!serverRunning) {
+      }
+      else if (!serverRunning) {
         writeFailure();
       }
     }
-  }, 
+  },
     'Start running server specs, re-run as server recompiles',
     ['--start', '--stop']
   );

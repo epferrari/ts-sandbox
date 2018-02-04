@@ -1,4 +1,3 @@
-import {ChildProcess} from 'child_process';
 import {Gulp} from 'gulp';
 import {TaskContext} from './taskContext';
 

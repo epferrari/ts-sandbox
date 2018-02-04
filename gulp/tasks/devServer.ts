@@ -9,8 +9,8 @@ export const serve: TaskFactory<void> = (gulp, context) => done => {
     `--env development`
   ].join(' ');
   const child: ChildProcess = exec(c, (err, stdout, stderr) => {
-    console.log(stdout);
-    console.error(stderr);
+    process.stdout.write(stdout);
+    process.stderr.write(stderr);
     done(err);
   });
 

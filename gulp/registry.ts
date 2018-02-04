@@ -1,7 +1,7 @@
 
 import {Gulp, TaskFunction} from 'gulp';
 import * as assert from 'assert';
-import {TaskContext, ContextOptions} from './taskContext';
+import {TaskContext, IContextOptions} from './taskContext';
 import {TaskFactory} from './taskFactory';
 import * as DefaultRegistry from 'undertaker-registry';
 
@@ -17,13 +17,13 @@ export class Registry extends DefaultRegistry {
 
   protected readonly ctx: TaskContext;
 
-  constructor(options: ContextOptions) {
+  constructor(options: IContextOptions) {
     super();
     assert(typeof options.rootPath === 'string', 'rootPath must be defined in Registry options');
     this.ctx = new TaskContext(options);
   }
 
-  public init (gulp: Gulp) {
+  public init(gulp: Gulp) {
     super.init(gulp);
 
     const {task, parallel, series} = gulp;
@@ -32,10 +32,10 @@ export class Registry extends DefaultRegistry {
     task('clean:client', provide(cleanClient));
     task('clean:server', provide(cleanServer));
     task('clean', parallel('clean:client', 'clean:server'));
-    
+
     task('statics:build', provide(buildStatics));
-    
-    task('tslint:tasks', provide(tslint.lintTasks))
+
+    task('tslint:tasks', provide(tslint.lintTasks));
     task('tslint:server', provide(tslint.lintServer));
     task('tslint:client', provide(tslint.lintClient));
     task('tslint', parallel('tslint:client', 'tslint:client'));
@@ -50,12 +50,12 @@ export class Registry extends DefaultRegistry {
       'server:compile',
       provide(serverTest.singleRun)
     ));
-    
+
     task('server:test', series(
       parallel('server:test:single', provide(compiler.watchServer)),
       provide(serverTest.continuous)
     ));
-    
+
     task('server:run', parallel(
       'tslint:server',
       parallel(
@@ -68,9 +68,9 @@ export class Registry extends DefaultRegistry {
         provide(server.serve)
       )
     ));
-    
+
     task('dev', parallel('client:devServer', 'server:run'));
-    
+
     task('default', task('dev'));
   }
 }
