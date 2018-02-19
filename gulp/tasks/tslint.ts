@@ -8,7 +8,7 @@ let clientProgram: Program;
 let serverProgram: Program;
 const formatter = 'stylish';
 
-export const lintTasks: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath, buildDir}) => () => {
+export const lintTasks: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath}) => () => {
   const program = taskProgram || (taskProgram =
     tslint.Linter.createProgram(`${rootPath}/gulp/tsconfig.json`)
   );
@@ -18,7 +18,7 @@ export const lintTasks: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath, 
     .pipe(tslintPlugin.report());
 };
 
-export const lintServer: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath, buildDir}) => () => {
+export const lintServer: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath}) => () => {
   const program = serverProgram || (serverProgram =
     tslint.Linter.createProgram(`${rootPath}/src/server/tsconfig.json`)
   );
@@ -28,7 +28,7 @@ export const lintServer: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath,
     .pipe(tslintPlugin.report());
 };
 
-export const lintClient: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath, buildDir}) => () => {
+export const lintClient: TaskFactory<NodeJS.ReadWriteStream> = (gulp, {rootPath}) => () => {
   const program = clientProgram || (clientProgram =
     tslint.Linter.createProgram(`${rootPath}/src/client/tsconfig.json`)
   );
