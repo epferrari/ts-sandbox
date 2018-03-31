@@ -28,7 +28,6 @@
     "jsdoc-format": true,
     "match-default-export-name": true,
     "max-file-line-count": 200,
-    "max-classes-per-file": 3,
     "member-access": true,
     "member-ordering": false,
     "new-parens": true,

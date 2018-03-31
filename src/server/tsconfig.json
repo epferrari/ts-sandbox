@@ -1,17 +1,25 @@
 {
+	"version": "2.7.2",
 	"compilerOptions": {
 		"sourceMap": true,
-		"noImplicitAny": true,
+		"noImplicitAny": false,
 		"module": "commonjs",
+		"moduleResolution": "node",
 		"target": "es6",
 		"allowJs": true,
 		"experimentalDecorators": true,
-		"baseUrl": "../",
-		"rootDir": "../",
-		"outDir": "../../build"
+		"baseUrl": ".",
+		"noLib": false
 	},
+	"plugins": [
+		{
+			"name": "tslint-language-service",
+			"ignoreDefinitionFiles": true
+		}
+	],
+	"compileOnSave": false,
 	"include": [
-		"**/*.ts",
-		"../common/**/*.ts"
+		"./**/*",
+		"../common/**/*"
 	]
 }

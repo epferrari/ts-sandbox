@@ -1,0 +1,1 @@
+export {ExampleCtrl} from './exampleCtrl';

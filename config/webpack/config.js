@@ -1,28 +1,25 @@
-const appRoot = require("app-root-path").toString();
-const {join} = require("path");
+const appRoot = require('app-root-path').toString();
+const {join} = require('path');
+const entry = require('./entry');
+const devtool = require('./devtool');
+const devServer = require('./devServer');
+const output = require('./output');
+const resolve = require('./resolve');
+const cssLoaders = require('./cssLoaders');
+const scssLoaders = require('./scssLoaders');
 
 module.exports = function webpackConfig(env) {
   return {
-    entry: join(appRoot, "src/client/index.tsx"),
-    output: {
-      filename: "bundle.js",
-      path: env === 'development' ? '/' : join(appRoot, "dist", "public"),
-    },
-    devtool: "source-map",
-    devServer: {
-      publicPath: '/public/',
-      contentBase: join(appRoot, 'build', 'public'),
-      overlay: true,
-      port: 3031
-    },
-    resolve: {
-      extensions: [".ts", ".tsx", ".js", ".json"]
-    },
-
+    entry: entry(env, appRoot),
+    output: output(env, appRoot),
+    devtool: devtool(env),
+    devServer: devServer(env, appRoot),
+    resolve: resolve(env, appRoot),
     module: {
       rules: [
         {
           test: /\.tsx?$/,
+          exclude: /node_modules/,
           loader: "awesome-typescript-loader",
           options: {configFileName: join(appRoot, './src/client/tsconfig.json')}
         },
@@ -33,7 +30,11 @@ module.exports = function webpackConfig(env) {
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"]
+          use: cssLoaders(env)
+        },
+        {
+          test: /\.scss$/,
+          use: scssLoaders(env)
         },
         {
           test: /\.(svg|ttf|eot|woff|woff2)$/,
@@ -44,10 +45,12 @@ module.exports = function webpackConfig(env) {
         }
       ]
     },
-
     externals: {
       "react": "React",
       "react-dom": "ReactDOM"
     }
   };
 };
+
+
+

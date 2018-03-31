@@ -1,0 +1,17 @@
+{
+  "version": "2.7.2",
+  "compilerOptions": {
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es6",
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "baseUrl": "."
+  },
+  "compileOnSave": false,
+  "include": [
+    "./**/*"
+  ]
+}
