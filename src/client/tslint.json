@@ -58,7 +58,7 @@
     "object-literal-sort-keys": false,
     "one-line": true,
     "ordered-imports": false,
-    "prefer-function-over-method": true,
+    "prefer-function-over-method": false,
     "prefer-object-spread": true,
     "prefer-switch": true,
     "prefer-template": true,
