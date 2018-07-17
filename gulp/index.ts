@@ -1,6 +1,6 @@
 import * as gulp from 'gulp';
 import * as appRootPath from 'app-root-path';
-import {Registry} from 'gulp-ts-foundation';
+import {BasicWebAppTooling} from 'gulp-ts-foundation';
 
 const rootPath = appRootPath.toString();
 const config = {
@@ -8,4 +8,4 @@ const config = {
   webpackConfigPath: `${rootPath}/config/webpack/config.js`
 };
 
-gulp.registry(new Registry(config));
+gulp.registry(new BasicWebAppTooling(config));
