@@ -10,6 +10,8 @@ const scssLoaders = require('./scssLoaders');
 
 module.exports = function webpackConfig(env) {
   return {
+    // default mode to env, possibly a better solution
+    mode: env,
     entry: entry(env, appRoot),
     output: output(env, appRoot),
     devtool: devtool(env),
