@@ -1,5 +1,5 @@
 interface ServiceProxy {
-  instance: any,
+  instance: any;
   ctor: new (registry: Registry) => any;
 }
 
@@ -7,8 +7,6 @@ export class Registry {
   private services: {[name: string]: ServiceProxy} = {};
   private constants: {[key: string]: string} = {};
   private stack: Set<string> = new Set<string>();
-
-  constructor() {}
 
   public constant(key: string, item: string): this {
     this.constants[key] = item;
@@ -21,7 +19,7 @@ export class Registry {
 
   public service(name: string, ctor: ServiceProxy['ctor']): this {
     if (this.services[name]) {
-      throw `Service ${name} already registered`;
+      throw new Error(`Service ${name} already registered`);
     }
     this.services[name] = {
       instance: null,
@@ -32,11 +30,11 @@ export class Registry {
 
   public getService<T>(name: string): T {
     if (this.stack.has(name)) {
-      throw `Circular dependency detected when resolving ${name}`;
+      throw new Error(`Circular dependency detected when resolving ${name}`);
     }
     const proxy = this.services[name];
     if (!proxy) {
-      throw `Service ${name} not registered`;
+      throw new Error(`Service ${name} not registered`);
     }
     if (!proxy.instance) {
       this.stack.add(name);
