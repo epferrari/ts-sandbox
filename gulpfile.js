@@ -1,2 +1,2 @@
-require('ts-node').register({ project: './gulp' });
+require('ts-node').register({ project: './gulp/tsconfig.json' });
 require('./gulp');
