@@ -31,7 +31,7 @@
     "member-access": true,
     "member-ordering": false,
     "new-parens": true,
-    "newline-before-return": true,
+    "newline-before-return": false,
     "no-consecutive-blank-lines": false,
     "no-console": true,
     "no-debugger": true,
@@ -42,7 +42,7 @@
     "no-invalid-this": true,
     "no-non-null-assertion": true,
     "no-parameter-properties": true,
-    "no-shadowed-variable": true,
+    "no-shadowed-variable": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
     "no-this-assignment": [
@@ -52,7 +52,6 @@
       }
     ],
     "no-trailing-whitespace": true,
-    "no-unused-variable": true,
     "no-var-requires": false,
     "number-literal-format": true,
     "object-literal-sort-keys": false,
