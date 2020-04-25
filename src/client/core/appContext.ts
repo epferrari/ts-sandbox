@@ -1,4 +1,5 @@
 import {createContext} from 'react';
-import {Registry} from './registry';
+import {DependencyContainer} from 'tsyringe';
 
-export const AppContext = createContext<Registry>(null);
+
+export const AppContext = createContext<DependencyContainer>(null);

@@ -1,31 +1,41 @@
-import {Component} from 'react';
-import {Registry} from '../core/registry';
+import * as _ from 'lodash';
+import {Component, useContext} from 'react';
+import {DependencyContainer, InjectionToken} from 'tsyringe';
+import {AppContext} from '../core';
 
-export function getServiceFromProviderContext<T>(target: Component<any>, serviceName: string): T {
-  const context = target.context;
-  const contextualFailureMsg = `"${target.constructor.name}" expected to receive "${serviceName}"`;
-  if (!context) {
-    throw new Error(`no context provided to component. ${contextualFailureMsg}`);
-  }
-  if (!context.registry) {
-    throw new Error(`no registry provided to component context. ${contextualFailureMsg}`);
-  }
-  const registry: Registry = target.context.registry;
-  const service: T = registry.getService<T>(serviceName);
-  if (!service) {
-    throw new Error(`service does not exist. ${contextualFailureMsg}`);
-  }
 
-  return service;
-}
-
-export function service<T>(serviceName: string) {
+export function resolve<T>(serviceName: string) {
   return <C extends Component<any>>(target: C, key: string) => {
-    let service: T;
+    let instance: T;
     Object.defineProperty(target, key, {
+      // tslint:disable-next-line
       get: function () {
-        return service || (service = getServiceFromProviderContext<T>(this, serviceName));
+        // tslint:disable-next-line
+        return instance || (instance = resolveDependencyFromContext<T>(this, serviceName));
       }
     });
   };
 }
+
+function resolveDependencyFromContext<T>(target: Component<any>, token: InjectionToken<T>): T {
+  const contextualFailureMsg = `"${target.constructor.name}" attempting to resolve "${getTokenName(token)}"`;
+  const registry: DependencyContainer = useContext(AppContext);
+  if (!registry) {
+    throw new Error(`Registry unvailable. ${contextualFailureMsg}`);
+  }
+  const instance: T = registry.resolve<T>(token);
+  if (!instance) {
+    throw new Error(`Dependency unavailable. ${contextualFailureMsg}`);
+  }
+
+  return instance;
+}
+
+function getTokenName(token: InjectionToken<any>): string {
+  if(_.isFunction(token)) {
+    return token.name;
+  } else {
+    return token.toString();
+  }
+}
+

@@ -20,6 +20,7 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.150",
     "bootstrap": "^4.4.1",
     "bunyan": "^1.8.12",
     "chance": "^1.0.12",
@@ -30,13 +31,16 @@
     "helmet": "^3.22.0",
     "jquery": "^3.5.0",
     "json-schema": "^0.2.3",
+    "lodash": "^4.17.15",
     "prop-types": "^15.6.1",
     "react": "^16.0.0",
     "react-dom": "^16.13.1",
     "react-jsonschema-form": "^1.0.0",
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.1",
+    "reflect-metadata": "^0.1.13",
     "strongbus": "^1.0.0",
+    "tsyringe": "^4.1.0",
     "webpack-cli": "^3.3.11"
   },
   "devDependencies": {

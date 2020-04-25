@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {Registry, AppContext} from './core';
+import {DependencyContainer} from 'tsyringe';
+import {AppContext} from './core';
 
 import Home from './routes/home';
 
-export class App extends React.Component<{registry: Registry}, {}> {
+export class App extends React.Component<{registry: DependencyContainer}, {}> {
   public render() {
     return (
       <Router>

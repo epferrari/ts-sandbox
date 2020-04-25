@@ -1,2 +1,1 @@
-export {contextTypes} from './contextTypes';
-export {service} from './service';
+export {resolve as resolveDependency} from './service';
