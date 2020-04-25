@@ -1,2 +1,2 @@
-export {ContextProvider} from './context-provider';
+export {AppContext} from './appContext';
 export {Registry} from './registry';
