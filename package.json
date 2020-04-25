@@ -36,7 +36,8 @@
     "react-dom": "^16.0.0",
     "react-jsonschema-form": "^1.0.0",
     "react-router-dom": "^4.2.2",
-    "reactstrap": "^5.0.0-alpha.4"
+    "reactstrap": "^5.0.0-alpha.4",
+    "strongbus": "^1.0.0"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.4",
